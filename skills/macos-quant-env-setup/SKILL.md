@@ -273,6 +273,76 @@ git config --global user.email "your_email@example.com"
 git config --global init.defaultBranch main
 ```
 
+### 6.7 SSH Key 生成（推荐，push 必用）
+
+> 国内 HTTPS push GitHub 几乎不可用（GFW SNI 干扰），SSH 协议不受影响，是 push 的唯一稳定方案。
+
+```bash
+# 生成 ed25519 密钥对（无密码短语，-N ""）
+mkdir -p ~/.ssh
+ssh-keygen -t ed25519 -C "your_email@example.com" -f ~/.ssh/id_ed25519 -N ""
+
+# 查看公钥（复制后添加到 GitHub）
+cat ~/.ssh/id_ed25519.pub
+```
+
+**添加公钥到 GitHub**：
+1. 打开 https://github.com/settings/keys
+2. 点击 **New SSH key**
+3. Title: `MacBook-Pro`（或机器名）
+4. Key type: `Authentication Key`
+5. 粘贴 `id_ed25519.pub` 内容 → **Add SSH key**
+
+**验证连接**：
+```bash
+ssh -T git@github.com
+# 成功输出: Hi username! You've successfully authenticated...
+```
+
+### 6.8 切换 Remote 为 SSH 并 Push
+
+```bash
+# 将已有仓库的 remote 从 HTTPS 切换为 SSH
+git remote set-url origin git@github.com:username/repo.git
+
+# 验证
+git remote -v
+# origin  git@github.com:username/repo.git (fetch)
+# origin  git@github.com:username/repo.git (push)
+
+# 推送
+git push origin main
+```
+
+### 6.9 SSH 走本地代理（可选，网络极差时）
+
+如果 SSH 直连也不稳定（极少见），可配置 ProxyCommand：
+
+```bash
+cat >> ~/.ssh/config << 'EOF'
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    ProxyCommand nc -v -x 127.0.0.1:7890 %h %p
+EOF
+
+chmod 600 ~/.ssh/config
+```
+
+> 前提：本机有 Clash/V2Ray 等代理工具跑在 7890 端口。无代理时不要加此行。
+
+### 6.10 实测记录（2026-08-01）
+
+| 方式 | 结果 | 耗时 |
+|------|------|------|
+| HTTPS 直连 github.com:443 | ❌ 75s 超时，连接失败 | - |
+| HTTPS + gh-proxy.com | ❌ 卡死（公共代理不支持 push） | - |
+| HTTPS + ghfast.top | ❌ 卡死（同上） | - |
+| **SSH 直连（ed25519）** | **✅ 成功** | **< 3s** |
+
+**结论**：国内 push GitHub 只走 SSH，HTTPS 全线不可用。
+
 ---
 
 ## 七、SUDO_ASKPASS 非交互 sudo
@@ -441,6 +511,7 @@ echo "   镜像:   pip → 阿里云 | brew → 中科大 | git → ghfast.top"
 | 版本 | 日期 | 变更 |
 |------|------|------|
 | v1.0 | 2026-08-01 | 初始版本：完整环境搭建流程 + Pitfalls |
+| v1.1 | 2026-08-01 | 新增 6.7-6.10：SSH Key 生成、GitHub Push 实测记录 |
 
 ---
 
