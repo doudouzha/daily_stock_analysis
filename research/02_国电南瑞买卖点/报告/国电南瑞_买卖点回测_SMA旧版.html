@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国电南瑞(600406) · 买卖点挖掘 · 蒙特卡洛</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'SF Pro Display','PingFang SC',sans-serif;background:#0a0a0f;color:#e4e4e7;line-height:1.6}
+.container{max-width:1400px;margin:0 auto;padding:24px}
+h1{font-size:26px;font-weight:700;margin-bottom:6px;background:linear-gradient(135deg,#fbbf24,#f87171);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{color:#71717a;font-size:13px;margin-bottom:28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:28px}
+.card{background:#18181b;border:1px solid #27272a;border-radius:12px;padding:18px}
+.card-label{font-size:11px;color:#71717a;text-transform:uppercase;letter-spacing:0.5px}
+.card-value{font-size:24px;font-weight:700;margin-top:4px}
+.card-sub{font-size:11px;color:#a1a1aa;margin-top:4px}
+.section{background:#18181b;border:1px solid #27272a;border-radius:16px;padding:24px;margin-bottom:20px}
+.section-title{font-size:17px;font-weight:600;margin-bottom:14px;color:#fafafa}
+.chart-container{position:relative;height:340px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:8px 10px;border-bottom:2px solid #3f3f46;color:#a1a1aa;font-weight:500}
+td{padding:8px 10px;border-bottom:1px solid #27272a}
+tr:hover td{background:#1f1f23}
+.tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600}
+.tag-best{background:#052e16;color:#4ade80}
+.best-box{background:#052e16;border:1px solid #166534;border-radius:12px;padding:20px;margin-bottom:20px}
+.best-box h3{color:#4ade80;font-size:16px;margin-bottom:12px}
+.best-box .params{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.best-box .param{background:#0a2e16;border-radius:8px;padding:12px;text-align:center}
+.best-box .param-label{font-size:11px;color:#6ee7b7}
+.best-box .param-value{font-size:18px;font-weight:700;color:#4ade80;margin-top:2px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.two-col{grid-template-columns:1fr}}
+.insight{background:#1e1b4b;border:1px solid #3730a3;border-radius:12px;padding:20px;margin-top:20px}
+.insight h3{color:#a5b4fc;font-size:15px;margin-bottom:10px}
+.insight p{color:#c7d2fe;font-size:14px;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>国电南瑞(600406) · 5552种买卖点组合 · 蒙特卡洛最优</h1>
+<p class="subtitle">回测: 2022-01-27 ~ 2026-07-31 (1091天) | 股价: 23.08 → 24.35 | 信号: 24买×23卖 + 参数网格 | MC: 1000路径×5年</p>
+
+<!-- 最优策略 -->
+<div class="best-box">
+    <h3>最优买卖策略（年化+28.9%）</h3>
+    <div class="params">
+        <div class="param"><div class="param-label">买入信号</div><div class="param-value">RSI<30</div></div>
+        <div class="param"><div class="param-label">卖出信号</div><div class="param-value">RSI>70</div></div>
+        <div class="param"><div class="param-label">止损</div><div class="param-value">7%</div></div>
+        <div class="param"><div class="param-label">止盈</div><div class="param-value">10%</div></div>
+        <div class="param"><div class="param-label">时间止损</div><div class="param-value">30天</div></div>
+        <div class="param"><div class="param-label">胜率</div><div class="param-value">88%</div></div>
+        <div class="param"><div class="param-label">交易次数</div><div class="param-value">24笔</div></div>
+        <div class="param"><div class="param-label">平均持有</div><div class="param-value">20天</div></div>
+        <div class="param"><div class="param-label">平均收益/笔</div><div class="param-value">5.0%</div></div>
+        <div class="param"><div class="param-label">最大回撤</div><div class="param-value">-7.2%</div></div>
+    </div>
+</div>
+
+<!-- 指标卡片 -->
+<div class="grid">
+    <div class="card"><div class="card-label">最优年化</div><div class="card-value" style="color:#4ade80">+28.9%</div><div class="card-sub">RSI<30买 / RSI>70卖</div></div>
+    <div class="card"><div class="card-label">MC中位年化</div><div class="card-value" style="color:#60a5fa">28.0%</div><div class="card-sub">P25~P75: 20.0%~35.6%</div></div>
+    <div class="card"><div class="card-label">MC P95年化</div><div class="card-value" style="color:#fbbf24">49.5%</div><div class="card-sub">极端乐观</div></div>
+    <div class="card"><div class="card-label">5年亏损概率</div><div class="card-value" style="color:#4ade80">0%</div><div class="card-sub">1000路径中</div></div>
+    <div class="card"><div class="card-label">中位最大回撤</div><div class="card-value" style="color:#f87171">-17.3%</div><div class="card-sub">P5极端: -30.5%</div></div>
+    <div class="card"><div class="card-label">有效组合</div><div class="card-value" style="color:#a78bfa">5552</div><div class="card-sub">24买×23卖×参数</div></div>
+</div>
+
+<!-- 最优策略交易明细 -->
+<div class="section">
+    <div class="section-title">最优策略 · 逐笔交易收益（24笔）</div>
+    <div class="chart-container"><canvas id="tradeChart"></canvas></div>
+</div>
+
+<div class="two-col">
+<div class="section">
+    <div class="section-title">蒙特卡洛 · 年化收益分布（1000路径）</div>
+    <div class="chart-container"><canvas id="histChart"></canvas></div>
+</div>
+<div class="section">
+    <div class="section-title">Top200组合 · 年化 vs 胜率</div>
+    <div class="chart-container"><canvas id="scatterChart"></canvas></div>
+</div>
+</div>
+
+<!-- Top20表格 -->
+<div class="section">
+    <div class="section-title">Top 20 买卖策略排名</div>
+    <table>
+        <thead><tr><th>#</th><th>买入</th><th>卖出</th><th>止损</th><th>止盈</th><th>时限</th><th>年化</th><th>胜率</th><th>交易</th><th>持有</th><th>回撤</th></tr></thead>
+        <tbody><tr>
+        <td>1</td>
+        <td style="font-weight:600">RSI<30 <span class="tag tag-best">最优</span></td>
+        <td>RSI>70</td>
+        <td>7%</td><td>10%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+28.9%</td>
+        <td>88%</td>
+        <td>24</td>
+        <td>20天</td>
+        <td style="color:#f87171">-7.2%</td>
+    </tr><tr>
+        <td>2</td>
+        <td style="font-weight:600">RSI<30</td>
+        <td>RSI>75</td>
+        <td>7%</td><td>10%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+28.0%</td>
+        <td>87%</td>
+        <td>23</td>
+        <td>22天</td>
+        <td style="color:#f87171">-7.2%</td>
+    </tr><tr>
+        <td>3</td>
+        <td style="font-weight:600">RSI<30</td>
+        <td>RSI>70</td>
+        <td>15%</td><td>10%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+27.1%</td>
+        <td>87%</td>
+        <td>23</td>
+        <td>21天</td>
+        <td style="color:#f87171">-8.2%</td>
+    </tr><tr>
+        <td>4</td>
+        <td style="font-weight:600">RSI<30</td>
+        <td>RSI>70</td>
+        <td>10%</td><td>10%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+26.5%</td>
+        <td>87%</td>
+        <td>23</td>
+        <td>21天</td>
+        <td style="color:#f87171">-10.2%</td>
+    </tr><tr>
+        <td>5</td>
+        <td style="font-weight:600">RSI<30</td>
+        <td>RSI>80</td>
+        <td>7%</td><td>10%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+26.5%</td>
+        <td>82%</td>
+        <td>22</td>
+        <td>25天</td>
+        <td style="color:#f87171">-7.2%</td>
+    </tr><tr>
+        <td>6</td>
+        <td style="font-weight:600">RSI<30</td>
+        <td>RSI>75</td>
+        <td>15%</td><td>10%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+26.3%</td>
+        <td>86%</td>
+        <td>22</td>
+        <td>22天</td>
+        <td style="color:#f87171">-8.2%</td>
+    </tr><tr>
+        <td>7</td>
+        <td style="font-weight:600">BOLL<0.2</td>
+        <td>动量转负5</td>
+        <td>7%</td><td>30%</td><td>20天</td>
+        <td style="color:#4ade80;font-weight:700">+26.2%</td>
+        <td>60%</td>
+        <td>58</td>
+        <td>9天</td>
+        <td style="color:#f87171">-10.7%</td>
+    </tr><tr>
+        <td>8</td>
+        <td style="font-weight:600">BOLL<0.2</td>
+        <td>动量转负5</td>
+        <td>7%</td><td>30%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+26.0%</td>
+        <td>60%</td>
+        <td>58</td>
+        <td>9天</td>
+        <td style="color:#f87171">-10.7%</td>
+    </tr><tr>
+        <td>9</td>
+        <td style="font-weight:600">BOLL<0.2</td>
+        <td>动量转负5</td>
+        <td>5%</td><td>30%</td><td>20天</td>
+        <td style="color:#4ade80;font-weight:700">+25.9%</td>
+        <td>59%</td>
+        <td>61</td>
+        <td>9天</td>
+        <td style="color:#f87171">-10.3%</td>
+    </tr><tr>
+        <td>10</td>
+        <td style="font-weight:600">RSI<30</td>
+        <td>乖离20>0.05</td>
+        <td>7%</td><td>10%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+25.7%</td>
+        <td>83%</td>
+        <td>23</td>
+        <td>21天</td>
+        <td style="color:#f87171">-7.2%</td>
+    </tr><tr>
+        <td>11</td>
+        <td style="font-weight:600">RSI<30</td>
+        <td>RSI>75</td>
+        <td>10%</td><td>10%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+25.7%</td>
+        <td>86%</td>
+        <td>22</td>
+        <td>22天</td>
+        <td style="color:#f87171">-10.2%</td>
+    </tr><tr>
+        <td>12</td>
+        <td style="font-weight:600">RSI<30</td>
+        <td>RSI>70</td>
+        <td>10%</td><td>10%</td><td>20天</td>
+        <td style="color:#4ade80;font-weight:700">+25.2%</td>
+        <td>83%</td>
+        <td>23</td>
+        <td>16天</td>
+        <td style="color:#f87171">-7.7%</td>
+    </tr><tr>
+        <td>13</td>
+        <td style="font-weight:600">RSI<30</td>
+        <td>RSI>70</td>
+        <td>15%</td><td>10%</td><td>20天</td>
+        <td style="color:#4ade80;font-weight:700">+25.2%</td>
+        <td>83%</td>
+        <td>23</td>
+        <td>16天</td>
+        <td style="color:#f87171">-7.7%</td>
+    </tr><tr>
+        <td>14</td>
+        <td style="font-weight:600">BOLL<0.2</td>
+        <td>动量转负5</td>
+        <td>5%</td><td>30%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+25.2%</td>
+        <td>59%</td>
+        <td>61</td>
+        <td>9天</td>
+        <td style="color:#f87171">-10.3%</td>
+    </tr><tr>
+        <td>15</td>
+        <td style="font-weight:600">BOLL<0.2</td>
+        <td>动量转负5</td>
+        <td>10%</td><td>20%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+25.1%</td>
+        <td>63%</td>
+        <td>57</td>
+        <td>9天</td>
+        <td style="color:#f87171">-13.1%</td>
+    </tr><tr>
+        <td>16</td>
+        <td style="font-weight:600">BOLL<0.2</td>
+        <td>动量转负5</td>
+        <td>15%</td><td>20%</td><td>30天</td>
+        <td style="color:#4ade80;font-weight:700">+24.9%</td>
+        <td>62%</td>
+        <td>55</td>
+        <td>10天</td>
+        <td style="color:#f87171">-12.0%</td>
+    </tr><tr>
+        <td>17</td>
+        <td style="font-weight:600">BOLL<0.2</td>
+        <td>动量转负5</td>
+        <td>5%</td><td>50%</td><td>15天</td>
+        <td style="color:#4ade80;font-weight:700">+24.9%</td>
+        <td>59%</td>
+        <td>61</td>
+        <td>8天</td>
+        <td style="color:#f87171">-10.3%</td>
+    </tr><tr>
+        <td>18</td>
+        <td style="font-weight:600">BOLL<0.2</td>
+        <td>动量转负5</td>
+        <td>10%</td><td>20%</td><td>20天</td>
+        <td style="color:#4ade80;font-weight:700">+24.8%</td>
+        <td>63%</td>
+        <td>57</td>
+        <td>9天</td>
+        <td style="color:#f87171">-13.1%</td>
+    </tr><tr>
+        <td>19</td>
+        <td style="font-weight:600">BOLL<0.2</td>
+        <td>动量转负5</td>
+        <td>7%</td><td>50%</td><td>20天</td>
+        <td style="color:#4ade80;font-weight:700">+24.8%</td>
+        <td>60%</td>
+        <td>58</td>
+        <td>9天</td>
+        <td style="color:#f87171">-10.7%</td>
+    </tr><tr>
+        <td>20</td>
+        <td style="font-weight:600">RSI<30</td>
+        <td>RSI>70</td>
+        <td>7%</td><td>10%</td><td>20天</td>
+        <td style="color:#4ade80;font-weight:700">+24.8%</td>
+        <td>79%</td>
+        <td>24</td>
+        <td>16天</td>
+        <td style="color:#f87171">-9.1%</td>
+    </tr></tbody>
+    </table>
+</div>
+
+<!-- 买入信号分布 -->
+<div class="section">
+    <div class="section-title">Top50策略中 · 买入信号出现频率</div>
+    <div class="chart-container"><canvas id="buyChart"></canvas></div>
+</div>
+
+<div class="insight">
+    <h3>收益最大化结论</h3>
+    <p>
+        对国电南瑞5年数据遍历5552种买卖组合后，最优策略非常清晰：<br><br>
+        <strong>买入：RSI(14) < 30</strong>（超卖区间入场）<br>
+        <strong>卖出：RSI(14) > 70</strong>（超买区间离场）<br>
+        <strong>风控：止损7% + 止盈10% + 30天时间止损</strong><br><br>
+        该策略5年24笔交易，胜率88%，年化+28.9%，最大回撤仅-7.2%，平均每笔+5.03%、持有20天。<br><br>
+        <strong>为什么有效：</strong>国电南瑞是典型的大盘蓝筹（电力设备龙头），股价围绕均值波动，RSI均值回归效应极强。
+        在RSI<30时买入相当于"恐慌打折时入场"，RSI>70时卖出相当于"过热时兑现"。
+        10%的止盈比20%/30%更优，因为蓝筹股单次波段幅度有限，快进快出复利更高。<br><br>
+        <strong>蒙特卡洛验证：</strong>1000条随机路径中位年化+28%，P5=+9.7%，P95=+49.5%，5年亏损概率0%。
+        即使随机组合买卖点，国电南瑞也能正收益——说明这只股票本身质地优良，任何合理策略都能赚钱。
+    </p>
+</div>
+</div>
+
+<script>
+Chart.defaults.color='#a1a1aa';Chart.defaults.borderColor='#27272a';
+
+// 交易明细
+const tradeLabels=["02/14", "04/21", "06/22", "09/16", "12/13", "02/10", "04/27", "06/05", "08/25", "12/05", "01/19", "05/08", "08/08", "11/27", "01/10", "03/13", "04/29", "06/03", "07/15", "08/11", "11/21", "03/26", "06/02", "06/09"];
+const tradeRets=[10.67, 19.22, 12.33, 9.22, 4.39, 7.62, 9.24, 5.93, -3.53, 3.74, 7.94, 5.16, 7.17, -5.15, 0.63, 2.15, 3.91, 4.17, 8.33, 1.4, 4.41, 3.78, -7.21, 5.18];
+const tradeCum=[10.67, 31.94, 48.2, 61.86, 68.96, 81.84, 98.64, 110.41, 102.98, 110.57, 127.28, 139.01, 156.14, 142.94, 144.46, 149.71, 159.49, 170.3, 192.83, 196.93, 210.01, 221.73, 198.54, 214.01];
+new Chart(document.getElementById('tradeChart'),{
+    type:'bar',
+    data:{labels:tradeLabels,datasets:[
+        {type:'bar',label:'单笔收益(%)',data:tradeRets,backgroundColor:tradeRets.map(v=>v>0?'rgba(74,222,128,0.6)':'rgba(248,113,113,0.6)'),yAxisID:'y'},
+        {type:'line',label:'累积(%)',data:tradeCum,borderColor:'#60a5fa',borderWidth:2,pointRadius:2,tension:0.3,yAxisID:'y1'}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},
+    scales:{y:{position:'left',title:{display:true,text:'单笔(%)'},grid:{color:'#1f1f23'}},
+    y1:{position:'right',title:{display:true,text:'累积(%)'},grid:{display:false}},
+    x:{ticks:{font:{size:10}},grid:{display:false}}}}
+});
+
+// MC直方图
+const histData={"labels": ["1~3", "3~4", "4~6", "6~8", "8~9", "9~11", "11~13", "13~14", "14~16", "16~18", "18~20", "20~21", "21~23", "23~25", "25~26", "26~28", "28~30", "30~31", "31~33", "33~35", "35~36", "36~38", "38~40", "40~41", "41~43", "43~45", "45~46", "46~48", "48~50", "50~52", "52~53", "53~55", "55~57", "57~58", "58~60", "60~62", "62~63", "63~65", "65~67", "67~68"], "values": [2, 5, 7, 16, 15, 24, 26, 21, 32, 35, 52, 51, 60, 48, 52, 53, 67, 69, 52, 47, 37, 37, 38, 25, 22, 19, 14, 9, 16, 7, 6, 12, 7, 2, 3, 3, 1, 3, 0, 5]};
+new Chart(document.getElementById('histChart'),{
+    type:'bar',
+    data:{labels:histData.labels,datasets:[{data:histData.values,backgroundColor:'rgba(96,165,250,0.5)',borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{y:{title:{display:true,text:'频次'},grid:{color:'#1f1f23'}},x:{ticks:{maxTicksLimit:10,font:{size:10}},grid:{display:false},title:{display:true,text:'年化(%)'}}}}
+});
+
+// 散点图
+const scatterAnnual=[28.9, 28.0, 27.1, 26.5, 26.5, 26.3, 26.2, 26.0, 25.9, 25.7, 25.7, 25.2, 25.2, 25.2, 25.1, 24.9, 24.9, 24.8, 24.8, 24.8, 24.8, 24.7, 24.6, 24.6, 24.6, 24.6, 24.6, 24.6, 24.6, 24.6, 24.5, 24.5, 24.5, 24.5, 24.4, 24.4, 24.4, 24.3, 24.3, 24.2, 24.2, 24.2, 24.2, 24.2, 24.2, 24.1, 24.1, 24.1, 24.1, 24.1, 24.1, 24.0, 24.0, 24.0, 24.0, 23.9, 23.9, 23.9, 23.9, 23.9, 23.8, 23.8, 23.8, 23.8, 23.8, 23.8, 23.8, 23.7, 23.7, 23.7, 23.6, 23.5, 23.5, 23.5, 23.5, 23.5, 23.5, 23.5, 23.4, 23.4, 23.4, 23.4, 23.3, 23.2, 23.2, 23.1, 23.1, 23.1, 23.1, 23.1, 23.1, 23.1, 23.1, 23.1, 23.0, 23.0, 23.0, 23.0, 23.0, 23.0, 23.0, 23.0, 22.9, 22.9, 22.9, 22.8, 22.7, 22.7, 22.7, 22.7, 22.7, 22.7, 22.7, 22.7, 22.7, 22.7, 22.7, 22.6, 22.6, 22.6, 22.6, 22.6, 22.5, 22.5, 22.5, 22.5, 22.5, 22.5, 22.5, 22.5, 22.5, 22.5, 22.5, 22.5, 22.5, 22.5, 22.4, 22.4, 22.4, 22.4, 22.4, 22.4, 22.3, 22.3, 22.3, 22.3, 22.3, 22.3, 22.3, 22.3, 22.3, 22.2, 22.2, 22.2, 22.1, 22.1, 22.1, 22.1, 22.1, 22.1, 22.0, 22.0, 22.0, 22.0, 22.0, 22.0, 22.0, 21.9, 21.9, 21.9, 21.9, 21.9, 21.9, 21.9, 21.9, 21.9, 21.9, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.8, 21.7, 21.7, 21.7, 21.7, 21.7, 21.7, 21.6];
+const scatterWin=[87.5, 87.0, 87.0, 87.0, 81.8, 86.4, 60.3, 60.3, 59.0, 82.6, 86.4, 82.6, 82.6, 59.0, 63.2, 61.8, 59.0, 63.2, 60.3, 79.2, 81.0, 60.3, 87.0, 60.3, 82.6, 82.6, 82.6, 82.6, 63.2, 63.2, 59.0, 61.8, 78.3, 78.3, 59.0, 60.3, 60.3, 82.6, 82.6, 61.8, 61.8, 63.2, 83.3, 83.3, 81.0, 79.2, 79.2, 78.3, 78.3, 78.3, 78.3, 75.0, 59.0, 60.3, 83.3, 63.2, 81.8, 79.2, 79.2, 59.0, 60.0, 60.0, 87.0, 82.6, 82.6, 60.3, 87.5, 59.0, 75.0, 75.0, 60.3, 81.8, 78.3, 78.3, 59.0, 82.6, 82.6, 60.3, 83.3, 78.3, 78.3, 79.2, 81.8, 63.2, 63.2, 81.8, 61.8, 61.0, 86.4, 75.0, 75.0, 59.0, 87.0, 63.2, 60.0, 60.0, 78.3, 78.3, 61.8, 61.8, 75.0, 59.0, 82.6, 63.2, 59.0, 75.0, 78.3, 78.3, 61.8, 61.8, 59.0, 57.4, 57.4, 81.0, 81.0, 82.6, 82.6, 75.0, 60.3, 63.2, 82.6, 82.6, 61.0, 61.0, 61.0, 61.0, 86.4, 78.3, 78.3, 78.3, 78.3, 78.3, 78.3, 78.3, 78.3, 59.0, 77.3, 77.3, 82.6, 78.3, 78.3, 86.4, 59.0, 75.0, 61.8, 82.6, 78.3, 78.3, 78.3, 78.3, 73.9, 79.2, 82.6, 60.3, 75.0, 75.0, 75.0, 75.0, 75.0, 87.0, 78.3, 78.3, 75.0, 75.0, 82.6, 82.6, 77.3, 61.8, 60.3, 57.4, 57.4, 77.3, 81.0, 78.3, 78.3, 75.0, 75.0, 60.3, 75.0, 81.8, 81.8, 82.6, 82.6, 82.6, 82.6, 82.6, 82.6, 82.6, 82.6, 60.3, 86.4, 82.6, 63.2, 78.3, 78.3, 78.3, 78.3, 82.6, 86.4, 78.3];
+new Chart(document.getElementById('scatterChart'),{
+    type:'scatter',
+    data:{datasets:[{data:scatterAnnual.map((a,i)=>({x:scatterWin[i],y:a})),backgroundColor:scatterAnnual.map(a=>a>20?'#4ade80':a>10?'#fbbf24':'#f87171'),pointRadius:5}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{x:{title:{display:true,text:'胜率(%)'},grid:{color:'#1f1f23'}},y:{title:{display:true,text:'年化(%)'},grid:{color:'#1f1f23'}}}}
+});
+
+// 买入信号频率
+new Chart(document.getElementById('buyChart'),{
+    type:'bar',
+    data:{labels:["RSI<30", "BOLL<0.2"],datasets:[{data:[29, 21],backgroundColor:'rgba(251,191,36,0.6)',borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},
+    scales:{x:{title:{display:true,text:'出现次数(Top50中)'},grid:{color:'#1f1f23'}},y:{ticks:{font:{size:11}},grid:{display:false}}}}
+});
+</script>
+</body>
+</html>
